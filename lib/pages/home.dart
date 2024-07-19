@@ -1,9 +1,11 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:youtube_player/pages/LoginScreen.dart';
 import 'package:youtube_player/pages/add_list.dart';
 import 'package:youtube_player/pages/all_videos.dart';
 import 'package:youtube_player/service/database.dart';
@@ -27,6 +29,13 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     getontheload();
     super.initState();
+  }
+
+  void logOut() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.popUntil(context, (route) => route.isFirst);
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => Loginscreen()));
   }
 
   Widget allCourse() {
@@ -141,15 +150,20 @@ class _HomeState extends State<Home> {
                         fontFamily: 'Poppins',
                       ),
                     ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset(
-                        "images/userimg1.jpg",
-                        height: 50,
-                        width: 50,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                    // ClipRRect(
+                    //   borderRadius: BorderRadius.circular(10),
+                    //   child: Image.asset(
+                    //     "images/userimg1.jpg",
+                    //     height: 50,
+                    //     width: 50,
+                    //     fit: BoxFit.cover,
+                    //   ),
+                    // ),
+                    IconButton(
+                        onPressed: () {
+                          logOut();
+                        },
+                        icon: Icon(Icons.logout))
                   ],
                 ),
               ),
